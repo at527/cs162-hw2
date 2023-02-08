@@ -49,4 +49,4 @@ let corner n xss =
 let rec diag xxs =
   let shrink xys = 
     map (fun xs -> tl xs) (tl xys) in
-  Cons (fun () -> (corner 1 xxs), (diag (shrink xxs)))
+  Cons (fun () -> (hd (hd xxs)), (diag (shrink xxs)))
