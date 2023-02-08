@@ -1,22 +1,26 @@
-fun aux_max with list max_val =
-    if (isnil list) then
+fun aux_max with l, max_val =
+    if (isnil l) then
         max_val
     else
-        if (!list > max_val) then
-            aux_max (#list) (!list)
+        if (!l > max_val) then
+            aux_max (#l) (!l)
         else
-            aux_max (#list) (max_val)
+            aux_max (#l) (max_val)
 in
-fun max with list = 
-    if (isnil list) then 
-        Nil
+fun max_val with l = 
+    if (isnil l) then 
+        (0 @ 0 @ Nil)
     else 
-        aux_max (#list) (!list)
+        (1 @ (aux_max (#l) (!l)) @ Nil)
 in
 fun largest_elems with l =
-    if isnil l then
+    if (isnil l) then
         Nil
     else
-        (max !l) @ largest_elems (#l)
+        let m = (max_val !l) in
+        if (!m = 0) then
+            largest_elems (#l)
+        else 
+            !(#m) @ (largest_elems (#l))
 in
-largest_elems ((1 @ 2 @ Nil) @ Nil @ (4 @ 3 @ Nil) @ Nil)
+largest_elems
