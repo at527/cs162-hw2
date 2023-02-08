@@ -18,25 +18,35 @@ let rec map f xs =
   Cons (fun () -> f (hd xs), map f (tl xs))
 
 let rec repeat x = 
-  failwith "Your code here"
+  Cons (fun () -> (x, repeat (x)));;
 
 let fib =
-  failwith "Your code here"
+  let rec fib_n (n: int) : int =
+    match n with 
+    | 0 -> 0
+    | 1 -> 1
+    | n -> fib_n(n - 1) + fib_n(n - 2)
+  in
+  map (fib_n) (from 0)
 
 let rec firstn n xs =
-  failwith "Your code here"
-
+  if n = 0 then []
+  else
+    hd xs::firstn (n-1) (tl xs)
+      
 let rec interleave xs ys =
-  failwith "Your code here"
+  Cons (fun () -> (hd xs), ( cons (hd ys) (interleave (tl xs) (tl ys))) )
 
-let z =
-  failwith "Your code here"
+let z = interleave ( map (fun x -> -1 * x) (from 0) ) (from 1) 
 
 let product xs ys =
-  failwith "Your code here"
+  map (fun x -> map (fun y -> (x, y)) (ys)) (xs) 
 
 let corner n xss =
-  failwith "Your code here"
+  let rows = firstn (n) (xss) in
+  List.map (fun row -> firstn (n) row) (rows)
 
 let rec diag xxs =
-  failwith "Your code here"
+  let shrink xys = 
+    map (fun xs -> tl xs) (tl xys) in
+  Cons (fun () -> (corner 1 xxs), (diag (shrink xxs)))
